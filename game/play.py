@@ -18,12 +18,13 @@ def game1(credit):
             hisbet=mybet*2
             pool=mybet+hisbet
             print(pool)
-            print(pack[4:7])
+            comcards=pack[4:7]
+            print(comcards)
             while pick==True:
                 mybet2==int(input('How much you gonna bet:'))
                 if mybet2<credit:
                     credit=credit-mybet
-                    hisbet=bet(mybet2)
+                    hisbet=bet(mybet2,comcards,opphand)
                 else:
                     print('Too much')
 
