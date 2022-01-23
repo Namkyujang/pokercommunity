@@ -1,4 +1,4 @@
 import random
-def bet(a,b,c):
-    chance=int(rnadom.random()*100)+1
-    
+def gamble(mybet,ophand,comcards,credit,pool):
+    showdown=ophand+comcards
+    for i in range(6):

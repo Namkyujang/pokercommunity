@@ -21,6 +21,27 @@ def game1(credit,opponent):
                 opponent[1]=opponent[1]-opbet
                 pool=pool+opbet
                 print(pool)
+                comcards=deck[4:7]
+                print(comcards)
+                mybet=int(input('How much you wanna bet:'))
+                b==True
+                while b:
+                    if 0<=mybet<credit:
+                         credit=credit-mybet
+                        pool=pool+mybet
+                        opbet=gamble(mybet,ophand,comcards,credit,pool)
+                    elif mybet==credit:
+                        credit=credit-mybet
+                        pool=pool+mybet
+                        opbet=opponent[1]
+                        opponent[1]=opponent[1]-opbet
+                        pool=pool+opbet
+                        print(pool)
+                        comcards=comcards+deck[7:8]
+                        print(comcards)
+                    else:
+                        print('Not enough money')
+                        b==False
                 a==False
 
             elif: mybet==credit:
@@ -30,25 +51,10 @@ def game1(credit,opponent):
                 opponent[1]=opponent[1]-opbet
                 pool=pool+opbet
                 print(pool)
+                comcards=comcards+deck[7:8]
+                print(comcards)
                 a==False
             else:
                 print('Not enough money')
         
-        comcards=deck[4:7]
-        print(comcards)
-        mybet=int(input('How much you wanna bet:'))
-        b==True
-        while b:
-            if 0<=mybet<credit:
-                credit=credit-mybet
-                pool=pool+mybet
-                opbet=gamble(credit,ophand,comcards)
-            elif mybet==credit:
-                credit=credit-mybet
-                pool=pool+mybet
-                opbet=opponent[1]
-                opponent[1]=opponent[1]-opbet
-                pool=pool+opbet
-                print(pool)
-            else:
-                print('Not enough money')
+        
