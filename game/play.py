@@ -42,7 +42,13 @@ def game1(credit,opponent):
             if 0<=mybet<credit:
                 credit=credit-mybet
                 pool=pool+mybet
+                opbet=gamble(credit,ophand,comcards)
             elif mybet==credit:
                 credit=credit-mybet
                 pool=pool+mybet
-                opbet
+                opbet=opponent[1]
+                opponent[1]=opponent[1]-opbet
+                pool=pool+opbet
+                print(pool)
+            else:
+                print('Not enough money')
