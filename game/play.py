@@ -1,4 +1,4 @@
-import random
+import random,bet
 def game1(credit):
     s=['Sa','S2','S3','S4','S5','S6','S7','S8','S9','S10','SK','SQ','SJ']
     d=['Da','D2','D3','D4','D5','D6','D7','D8','D9','D10','DK','DQ','DJ']

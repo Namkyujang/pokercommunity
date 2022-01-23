@@ -1,4 +1,5 @@
-import start, opp, game, play
+import start, opp
+import game.play
 credit=1000
 name=start.start()
 status=True
