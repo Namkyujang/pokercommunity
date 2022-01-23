@@ -7,8 +7,9 @@ def game1(credit):
     pool=0
     pack=s+d+h+c
     random.shuffle(pack)
-    opphand=pack[2]
+    opphand=pack[:2]
     myhand=pack[2:4]
+    print(myhand,end='')
     coke==True
     while coke==True:
         mybet=int(input('How much you gonna bet:'))
@@ -16,10 +17,16 @@ def game1(credit):
             credit=credit-mybet
             hisbet=mybet*2
             pool=mybet+hisbet
-            coke==False
+            print(pool)
+            print(pack[4:7])
+            while pick==True:
+                mybet2==int(input('How much you gonna bet:'))
+                if mybet2<credit:
+                    credit=credit-mybet
+                    hisbet=bet(mybet2)
+                else:
+                    print('Too much')
+
         else:
             print('Too much')
-    print(pool)
-    print(pack[4:7])
-    while pick==True:
-        
+    
