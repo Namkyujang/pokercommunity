@@ -1,33 +1,11 @@
 import random,bet
 def game1(credit):
-    s=['Sa','S2','S3','S4','S5','S6','S7','S8','S9','S10','SK','SQ','SJ']
-    d=['Da','D2','D3','D4','D5','D6','D7','D8','D9','D10','DK','DQ','DJ']
-    h=['Ha','H2','H3','H4','H5','H6','H7','H8','H9','H10','HK','HQ','HJ']
-    c=['Ca','C2','C3','C4','C5','C6','C7','C8','C9','C10','CK','CQ','CJ']
-    pool=0
-    pack=s+d+h+c
-    random.shuffle(pack)
-    opphand=pack[:2]
-    myhand=pack[2:4]
-    print(myhand,end='')
-    coke==True
-    while coke==True:
-        mybet=int(input('How much you gonna bet:'))
-        if mybet<credit:
-            credit=credit-mybet
-            hisbet=mybet*2
-            pool=mybet+hisbet
-            print(pool)
-            comcards=pack[4:7]
-            print(comcards)
-            while pick==True:
-                mybet2==int(input('How much you gonna bet:'))
-                if mybet2<credit:
-                    credit=credit-mybet
-                    hisbet=bet(mybet2,comcards,opphand)
-                else:
-                    print('Too much')
-
-        else:
-            print('Too much')
+    heart=[('H','a'),('H','2'),('H','3'),('H','4'),('H','5'),('H','6'),('H','7'),('H','8'),('H','9'),('H','10'),('H','K'),('H','Q'),('H','J')]
+    diamond=[('D','a'),('D','2'),('D','3'),('D','4'),('D','5'),('D','6'),('D','7'),('D','8'),('D','9'),('D','10'),('D','K'),('D','Q'),('D','J')]
+    clover=[('C','a'),('C','2'),('C','3'),('C','4'),('C','5'),('C','6'),('C','7'),('C','8'),('C','9'),('C','10'),('C','K'),('C','Q'),('C','J')]
+    spade=[('S','a'),('S','2'),('S','3'),('S','4'),('S','5'),('S','6'),('S','7'),('S','8'),('S','9'),('S','10'),('S','K'),('S','Q'),('S','J')]    
+    deck=heart+diamond+clover+spade
+    random.shuffle(deck)
+    ophand=deck[:2]
+    myhand=deck[2:4]
     
