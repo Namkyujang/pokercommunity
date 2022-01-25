@@ -29,7 +29,7 @@ def game1(credit,opponent):
                     if 0<=mybet<credit:
                          credit=credit-mybet
                         pool=pool+mybet
-                        opbet=gamble(mybet,ophand,comcards,credit,pool)
+                        opbet=gamble(mybet,ophand,comcards,credit,pool,opponent)
                     elif mybet==credit:
                         credit=credit-mybet
                         pool=pool+mybet

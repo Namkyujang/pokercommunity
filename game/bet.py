@@ -1,9 +1,11 @@
 import random
-def gamble(mybet,ophand,comcards,credit,pool):
+def gamble(mybet,ophand,comcards,credit,pool,opponent):
     showdown=ophand+comcards
     for i in range(len(showdown)):
         cmbn=[]
         if showdown[i][1]='1':
             cmbn.append(showdown[i])
             if len(cmbn)==2:
+
+
                 
