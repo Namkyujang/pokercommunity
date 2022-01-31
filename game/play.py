@@ -29,31 +29,18 @@ def game1(credit,opponent):
                     if 0<=mybet<credit:
                          credit=credit-mybet
                         pool=pool+mybet
-                        opbet=gamble(mybet,ophand,comcards,credit,pool,opponent)
-                    elif mybet==credit:
-                        credit=credit-mybet
-                        pool=pool+mybet
-                        opbet=opponent[1]
-                        opponent[1]=opponent[1]-opbet
-                        pool=pool+opbet
-                        print(pool)
+                        print('gamble')
                         comcards=comcards+deck[7:8]
                         print(comcards)
+                        print('gamble')
+                        comcards=comcards+deck[8:9]
+                    
                     else:
                         print('Not enough money')
                         b==False
                 a==False
 
-            elif: mybet==credit:
-                credit=credit-mybet
-                pool=pool+mybet
-                opbet=opponent[1]
-                opponent[1]=opponent[1]-opbet
-                pool=pool+opbet
-                print(pool)
-                comcards=comcards+deck[7:8]
-                print(comcards)
-                a==False
+            
             else:
                 print('Not enough money')
         
