@@ -13,3 +13,6 @@ if status==False:
     print('YOu won')
 elif credit<1000:
     print("you lost")
+
+
+#small change
