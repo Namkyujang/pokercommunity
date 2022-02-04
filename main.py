@@ -1,5 +1,6 @@
 import start, opp
-import game.play
+import sys 
+sys.path.append("C:/Users/nkjan/Documents/GitHub/pokercommunity/game/play.py")
 credit=1000
 name=start.start()
 status=True
