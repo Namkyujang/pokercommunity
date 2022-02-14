@@ -8,41 +8,23 @@ def game1(credit,opponent):#opponnent is a tuple variable from module opp
         pool=0
         deck=heart+diamond+clover+spade
         random.shuffle(deck)
-        ophand=deck[:2]
-        myhand=deck[2:4]
-        print(myhand)
-        mybet=int(input('How much you wanna bet:'))
-        a=True
-        while a:
-            if 0<=mybet<credit:
-                credit=credit-mybet
-                pool=pool+mybet
-                opbet=mybet*2
-                opcredit=opponent[1]
-                opcredit=opcredit-opbet
-                pool=pool+opbet
-                print("There is {} in the pool".format(pool))
-                comcards=deck[4:7]
-                print(comcards)
-                mybet=int(input('How much you wanna bet:'))
-                b=True
-                while b:
-                    if 0<=mybet<credit:
-                        credit=credit-mybet
-                        pool=pool+mybet
-                        print('gamble')
-                        comcards=comcards+deck[7:8]
-                        print(comcards)
-                        print('gamble')
-                        comcards=comcards+deck[8:9]
-
-                    
-                    else:
-                        print('Not enough money')
-                a=False
-
-            
-            else:
-                print('Not enough money')
-        
-        
+        mybet=int(input("How much do you wanna bet?:"))
+        if mybet>credit:
+            print("Thats too much")
+        elif mybet=credit:
+            print("All in")
+            credit=credit-mybet
+            opbet=opponent[1]
+            opponent[1]=opponent[1]-opbet
+            pool=mybet+opbet
+            print("There is {} on the pool".format(pool))
+            myhand=deck[:2]
+            ophand=deck[2:4]
+            print("This is your hand\t{}".format(myhand))
+            comcards=deck[4:7]
+            print("{}".format(comcards))
+            comcards=comcards+deck[7:8]
+            print("{}".format(comcards))
+            comcards=comards+deck[8:9]
+            myline=myhand+comcards
+            opline=ophand+comcards#going to make a compare funtion in hand in order to define who wins
