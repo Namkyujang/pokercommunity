@@ -11,7 +11,7 @@ def game1(credit,opponent):#opponnent is a tuple variable from module opp
         mybet=int(input("How much do you wanna bet?:"))
         if mybet>credit:
             print("Thats too much")
-        elif mybet=credit:
+        elif mybet==credit:
             print("All in")
             credit=credit-mybet
             opbet=opponent[1]
@@ -22,9 +22,16 @@ def game1(credit,opponent):#opponnent is a tuple variable from module opp
             ophand=deck[2:4]
             print("This is your hand\t{}".format(myhand))
             comcards=deck[4:7]
+            print("The community cards are these.")
             print("{}".format(comcards))
             comcards=comcards+deck[7:8]
             print("{}".format(comcards))
-            comcards=comards+deck[8:9]
+            comcards=comcards+deck[8:9]
             myline=myhand+comcards
             opline=ophand+comcards#going to make a compare funtion in hand in order to define who wins
+            #first have to make function makebest in order to define the best set of hands each player has.
+            #then have to make compare function to define winner.
+
+
+#I am right now in the process of creating game1 and the functions nessessary for it. The only probelm is to create the system that will represent the card rankings in order 
+#to define the winner and create the best set of hands that either player has.

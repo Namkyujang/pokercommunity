@@ -9,7 +9,7 @@ def opp(credit):
     if a=='Marcus':
         if credit>=1000:
             print('Ok')
-            play.game1(credit, ('Marcus', 1000))#game1 is a fuction from module play referring to the 1 verses 1 situation
+            play.game1(credit, ['Marcus', 1000])#game1 is a fuction from module play referring to the 1 verses 1 situation
         else:
             print('No')
             
