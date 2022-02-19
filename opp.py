@@ -1,6 +1,7 @@
 from game import play
 
 def opp(credit):
+    print("You have {} credit".format(credit))
     lopp={'Marcus':1000,'Mr Volovski':2000,'Pokerbot':3000,'Checkmate':4000,'Mr Mafia':5000}
     #play=True   
     for key in lopp.keys():
@@ -9,7 +10,7 @@ def opp(credit):
     if a=='Marcus':
         if credit>=1000:
             print('Ok')
-            play.game1(credit, ['Marcus', 1000])#game1 is a fuction from module play referring to the 1 verses 1 situation
+            play.game1(credit, ['Marcus', 1000])#game1 is a fuction from module play referring to the 1 verses 1 situation /tuple didn't work so I tried it with list.
         else:
             print('No')
             

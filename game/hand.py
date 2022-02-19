@@ -18,7 +18,7 @@ def makebest(line):
             num_s.s+=1
         if shape[i]=='C':
             num_s.c+=1
-        
+    
 
         
 

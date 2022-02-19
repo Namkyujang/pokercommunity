@@ -8,6 +8,7 @@ def game1(credit,opponent):#opponnent is a tuple variable from module opp
         pool=0
         deck=heart+diamond+clover+spade
         random.shuffle(deck)
+        print("You have {} credits".format(credit))
         mybet=int(input("How much do you wanna bet?:"))
         if mybet>credit:
             print("Thats too much")
@@ -25,6 +26,7 @@ def game1(credit,opponent):#opponnent is a tuple variable from module opp
             print("The community cards are these.")
             print("{}".format(comcards))
             comcards=comcards+deck[7:8]
+            print("The community cards are these.")
             print("{}".format(comcards))
             comcards=comcards+deck[8:9]
             myline=myhand+comcards
@@ -35,3 +37,4 @@ def game1(credit,opponent):#opponnent is a tuple variable from module opp
 
 #I am right now in the process of creating game1 and the functions nessessary for it. The only probelm is to create the system that will represent the card rankings in order 
 #to define the winner and create the best set of hands that either player has.
+#I still have to create the non all in situation.
