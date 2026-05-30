@@ -53,18 +53,23 @@ python3 -m arena.human --vs ollama:bluffer   # 로컬 LLM과 1:1 (속내를 말�
 - 모든 결정은 **이유(LLM의 경우 chain-of-thought)와 함께 JSONL로 로깅** 된다.
 - 규칙봇이 **baseline**, LLM 페르소나가 **비교 대상**이다.
 
-### 지금까지의 발견 (rule bot / 로컬 LLM)
+### 지금까지의 발견
 
-- **페르소나는 행동을 뚜렷이 가른다.** 동일 엔진·동일 패에서 레이즈 빈도 73%(블러퍼) vs 26%(냉정).
-- **빈도 ≠ 수익.** 블러퍼는 *판* 을 가장 많이 이기지만(블라인드 훔치기) 칩은 잃고(−29 BB/100),
-  냉정한 플레이어는 판은 적게 이겨도 유일하게 흑자(+93 BB/100). 공격성은 빈도를, 규율은 돈을 산다.
-- **LLM은 라벨을 인간 의도와 다르게 해석할 수 있다.** "넌 냉정해"를 받은 LLM은
-  "냉정 = 절대 공격 안 함"으로 읽어 밸류 레이즈를 전혀 하지 않았다 — 규칙봇 baseline과 다른 지점.
+**통제 실험(동일 시나리오를 모든 페르소나에 그대로 입력 → 카드 운 제거):**
+- **페르소나가 의사결정을 지배한다.** 동일 상황에서 LLM 블러퍼와 냉정은 **95%** 다른 결정.
+- **"공격적" 라벨이 합리성을 덮어쓴다.** LLM 블러퍼의 공격성은 패 세기와 **상관 0.00**
+  (카드를 무시하고 다 레이즈), 냉정은 패 세기를 더 따른다. → 라벨이 모델의 합리성 자체를 바꾼다.
 
-이는 *"페르소나를 LLM 추론을 들여다보는 렌즈로 쓴다"* 는 더 큰 방향의 첫 실험이다.
-방법·표·시드별 변동성·한계까지 정리한 결과 보고서는 **[`REPORT.md`](REPORT.md)** 참고.
+**게임 결과(규칙봇):**
+- **빈도 ≠ 수익.** 블러퍼는 *판* 을 가장 많이 이기지만(블라인드 훔치기) 돈은 잃고,
+  냉정은 판은 적게 이겨도 모든 시드에서 흑자. 공격성은 빈도를, 규율은 돈을 산다.
+
+이는 *"페르소나를 LLM 추론을 들여다보는 렌즈로 쓴다"* 는 방향의 첫 통제 실험이다.
+방법·표·시드 변동성·한계까지 정리한 결과 보고서는 **[`REPORT.md`](REPORT.md)** 참고.
 
 ```bash
+python3 -m arena.probe --scenarios 200                        # ★ 통제 실험: 고정 시나리오 배터리
+python3 -m arena.probe --backend ollama --scenarios 20 --personas bluffer,calm
 python3 -m arena.tournament --hands 200                       # 규칙봇 라운드로빈 + 행동/수익 표
 python3 -m arena.llm_run --p0 ollama:bluffer --p1 rule:calm   # LLM vs baseline
 python3 -m arena.analyze <trajectory.jsonl>                   # 행동 시그니처 분석
@@ -84,6 +89,7 @@ arena/
   llm_agent.py    Anthropic LLM 페르소나 (동일 인터페이스)
   ollama_agent.py 로컬 LLM 페르소나 (무료, 오프라인 · qwen2.5:7b)
   trajectory.py   JSONL 궤적 로거 (연구 자산)
+  probe.py        ★ 고정 시나리오 통제 실험 (eq~공격성 상관 등)
   analyze.py / tournament.py / run.py / llm_run.py   실험 러너 & 분석
   human.py        사람이 직접 플레이 (ASCII 카드 + 상대 중계)
   art.py          터미널 그래픽 (카드/배너/말풍선)
