@@ -62,6 +62,7 @@ python3 -m arena.human --vs ollama:bluffer   # 로컬 LLM과 1:1 (속내를 말�
   "냉정 = 절대 공격 안 함"으로 읽어 밸류 레이즈를 전혀 하지 않았다 — 규칙봇 baseline과 다른 지점.
 
 이는 *"페르소나를 LLM 추론을 들여다보는 렌즈로 쓴다"* 는 더 큰 방향의 첫 실험이다.
+방법·표·시드별 변동성·한계까지 정리한 결과 보고서는 **[`REPORT.md`](REPORT.md)** 참고.
 
 ```bash
 python3 -m arena.tournament --hands 200                       # 규칙봇 라운드로빈 + 행동/수익 표
