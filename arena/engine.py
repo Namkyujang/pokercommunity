@@ -181,12 +181,14 @@ class HeadsUpTable:
                 amt = min(to_call, self.stacks[p])
                 self._commit(p, amt, street_bets)
                 record["amount"] = amt
+                record["total_bet"] = street_bets[p]
 
             elif decision.action == RAISE:
                 raise_to = decision.amount
                 amt = raise_to - street_bets[p]
                 self._commit(p, amt, street_bets)
                 record["amount"] = amt
+                record["total_bet"] = street_bets[p]  # actual raise-to after commit
                 other = 1 - p
                 if self.stacks[other] > 0 and other not in queue:
                     queue.append(other)
