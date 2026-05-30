@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 
 from .cards import Card, make_deck, fmt
 from .evaluator import evaluate, hand_name
+from .equity import equity
 
 FOLD = "fold"
 CALL = "call"  # also covers "check" when there is nothing to call
@@ -63,7 +64,7 @@ class HandResult:
 
 class HeadsUpTable:
     def __init__(self, agents, stacks=(1000, 1000), sb=10, bb=20,
-                 logger=None, seed=None):
+                 logger=None, seed=None, log_equity=False, eq_samples=100):
         assert len(agents) == 2
         self.agents = list(agents)
         self.stacks = list(stacks)
@@ -71,6 +72,10 @@ class HeadsUpTable:
         self.bb = bb
         self.logger = logger
         self.rng = random.Random(seed)
+        # equity is logged from a SEPARATE rng so it never perturbs the shuffle
+        self.log_equity = log_equity
+        self.eq_samples = eq_samples
+        self._eq_rng = random.Random((seed or 0) + 9973)
         self.hand_id = 0
         self.button = 0  # heads-up: button posts small blind, acts first preflop
 
@@ -169,6 +174,10 @@ class HeadsUpTable:
                 "to_call": to_call, "pot_before": obs.current_pot,
                 "reasoning": decision.reasoning,
             }
+            if self.log_equity:
+                # ground-truth hand strength, computed identically for every agent
+                record["equity"] = round(
+                    equity(obs.hole, obs.community, self.eq_samples, self._eq_rng), 4)
 
             if decision.action == FOLD:
                 record["amount"] = 0

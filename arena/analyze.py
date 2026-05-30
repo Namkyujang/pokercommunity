@@ -22,8 +22,14 @@ import re
 BIG_BLIND = 20  # matches engine default; only used to express raise size in BB
 
 
-def _equity_from_reasoning(reasoning: str):
-    m = re.search(r"eq=([0-9.]+)", reasoning or "")
+WEAK = 0.40  # hand strength below which a raise counts as a "bluff"
+
+
+def _equity(row: dict):
+    # prefer the engine-logged ground-truth equity; fall back to a rule-bot tag
+    if row.get("equity") is not None:
+        return row["equity"]
+    m = re.search(r"eq=([0-9.]+)", row.get("reasoning") or "")
     return float(m.group(1)) if m else None
 
 
@@ -47,9 +53,8 @@ def analyze(path: str):
         raises = [r for r in rs if r["action"] == "raise"]
         folds = [r for r in rs if r["action"] == "fold"]
         calls = [r for r in rs if r["action"] == "call"]
-        # a "bluff" = raised with a weak hand (equity < 0.45 by reasoning tag)
-        bluffs = [r for r in raises
-                  if (_equity_from_reasoning(r["reasoning"]) or 1.0) < 0.45]
+        # a "bluff" = raised with a weak hand (low ground-truth equity)
+        bluffs = [r for r in raises if (_equity(r) or 1.0) < WEAK]
         avg_raise_bb = (sum(r["amount"] for r in raises) / len(raises) / BIG_BLIND
                         if raises else 0.0)
         print(f"{persona:>12} {n:>6} "

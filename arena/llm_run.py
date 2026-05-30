@@ -36,7 +36,8 @@ def run_match(p0: str, p1: str, hands: int, seed: int, out: str):
     a0 = build_agent(p0, seed)
     a1 = build_agent(p1, seed + 1)
     logger = TrajectoryLogger(out)
-    table = HeadsUpTable([a0, a1], stacks=(1000, 1000), logger=logger, seed=seed)
+    table = HeadsUpTable([a0, a1], stacks=(1000, 1000), logger=logger, seed=seed,
+                         log_equity=True)  # ground-truth strength for every decision
 
     wins = [0, 0, 0]
     for h in range(hands):

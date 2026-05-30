@@ -30,6 +30,8 @@ class TrajectoryLogger:
             "amount": record["amount"],
             "reasoning": record["reasoning"],
         }
+        if "equity" in record:
+            row["equity"] = record["equity"]
         self._fh.write(json.dumps(row, ensure_ascii=False) + "\n")
 
     def log_result(self, result, stacks):
