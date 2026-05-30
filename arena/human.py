@@ -19,6 +19,7 @@ from .engine import Observation, Decision, HeadsUpTable, FOLD, CALL, RAISE
 from .agents import make_persona, Agent
 from .llm_agent import make_llm_persona
 from .ollama_agent import make_ollama_persona
+from . import art
 
 LINE = "=" * 60
 
@@ -30,11 +31,13 @@ class HumanAgent(Agent):
         current_bet = max(obs.street_bets)
         opp = 1 - obs.actor
         print("\n" + LINE)
-        print(f" Hand #{obs.hand_id}   |   Street: {obs.street.upper()}")
-        print(f" Board:      {fmt(obs.community) if obs.community else '(none yet)'}")
-        print(f" Your hand:  {fmt(obs.hole)}")
-        print(f" Pot: {obs.current_pot}    To call: {obs.to_call}")
+        print(f" Hand #{obs.hand_id}   |   Street: {obs.street.upper()}"
+              f"      Pot: {obs.current_pot}   To call: {obs.to_call}")
         print(f" Your stack: {obs.my_stack}    Opponent stack: {obs.stacks[opp]}")
+        print(art.DIM + " Board:" + art.RESET)
+        print(art.cards_row(obs.community))
+        print(art.BOLD + " Your hand:" + art.RESET)
+        print(art.cards_row(obs.hole))
         print("-" * 60)
 
         min_raise_to = current_bet + obs.big_blind
@@ -64,41 +67,54 @@ class HumanAgent(Agent):
 class ConsoleLogger:
     """Prints a live commentary instead of (or alongside) writing to disk."""
 
-    def __init__(self, human_seat=0):
+    def __init__(self, human_seat=0, opp_name=None, show_reasoning=True):
         self.human_seat = human_seat
+        self.opp_name = opp_name           # display name for the non-human seat
+        self.show_reasoning = show_reasoning
+
+    def _who(self, record):
+        return self.opp_name or record["persona"]
 
     def log_decision(self, record, obs):
         if record["actor"] == self.human_seat:
             return  # the human already saw their own prompt
+        who = self._who(record)
         action = record["action"]
         if action == "raise":
-            line = f"   >> {record['persona']} raises to {record.get('total_bet', record['amount'])}"
+            line = f"   >> {who} raises to {record.get('total_bet', record['amount'])}"
         elif action == "call":
             paid = record.get("amount", 0)
-            line = (f"   >> {record['persona']} checks" if paid == 0
-                    else f"   >> {record['persona']} calls {paid}")
+            line = f"   >> {who} checks" if paid == 0 else f"   >> {who} calls {paid}"
         else:
-            line = f"   >> {record['persona']} folds"
-        print(line)
+            line = f"   >> {who} folds"
+        print(art.CYAN + line + art.RESET)
         reason = record.get("reasoning", "")
-        # strip the [tag] prefix for readability
-        if "]" in reason:
+        if "]" in reason:  # strip the [tag] prefix
             reason = reason.split("]", 1)[1].strip()
-        if reason:
-            print(f"      “{reason[:140]}”")
+        if self.show_reasoning and reason:
+            print(art.DIM + f"      “{reason[:140]}”" + art.RESET)
 
     def log_result(self, result, stacks):
         print("-" * 60)
+        opp = self.opp_name or "opponent"
         if result.reason == "fold":
-            print(f"   Hand over (fold). Winner: seat {result.winner}. Pot {result.pot}.")
+            won = "You" if result.winner == self.human_seat else opp
+            print(f"   Hand over (fold).  Pot ({result.pot}) goes to {won}.")
         else:
+            from .cards import card_from_str
             sd = result.showdown
-            print(f"   SHOWDOWN  board: {' '.join(sd['board'])}")
+            print("   SHOWDOWN")
+            print(art.cards_row([card_from_str(c) for c in sd["board"]]))
             for s in (0, 1):
-                print(f"     seat {s}: {' '.join(sd[s]['hole'])}  -> {sd[s]['hand']}")
-            who = "split pot" if result.winner is None else f"seat {result.winner} wins"
-            print(f"   {who}  (pot {result.pot})")
-        print(f"   Stacks now -> you: {stacks[0]}   opponent: {stacks[1]}")
+                label = "You " if s == self.human_seat else opp
+                print(f"   {label}: {' '.join(sd[s]['hole'])}  ->  {art.BOLD}{sd[s]['hand']}{art.RESET}")
+            if result.winner is None:
+                print("   Split pot.")
+            else:
+                won = "You win!" if result.winner == self.human_seat else f"{opp} wins."
+                print(f"   {art.YELLOW}{won}{art.RESET}  (pot {result.pot})")
+        print(f"   Stacks now ->  you: {art.GREEN}{stacks[0]}{art.RESET}   "
+              f"{opp}: {art.MAGENTA}{stacks[1]}{art.RESET}")
         print(LINE)
 
     def close(self):

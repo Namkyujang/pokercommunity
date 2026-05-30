@@ -27,7 +27,25 @@ step toward replacing them with LLM personas and asking whether a persona
 | `tournament.py` | round-robin + behavioural signature + profit (BB/100) |
 | `analyze.py` | per-persona behavioural stats from a trajectory log |
 
-## Quick start
+## Play it (story mode)
+
+```bash
+python -m arena.campaign     # climb the ladder of NPCs to MR. JOKER
+```
+
+A title screen, rules, and a choice of opponent backend (fast rule bots, or
+talking local-LLM personas). Beat each of the original pokercommunity NPCs
+(Marcus, Mr. Volovski, Pokerbot, Checkmate, Mr. Mafia) and face the final boss,
+**Mr. Joker** — with dialogue and ASCII-card graphics in the terminal.
+
+Or a single free-play duel against one persona:
+
+```bash
+python -m arena.human --vs rule:calm
+python -m arena.human --vs ollama:bluffer
+```
+
+## Quick start (research)
 
 ```bash
 # one match, writes a trajectory log

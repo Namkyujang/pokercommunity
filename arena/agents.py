@@ -101,9 +101,12 @@ def make_persona(name: str, seed=None, n_samples=100) -> PersonaRuleAgent:
         # High-risk / high-reward: big bets, swings hard, tilts when it loses.
         "highroller": dict(value_threshold=0.50, call_threshold=0.40,
                            bluff_freq=0.20, aggression=1.2, tilt=0.10),
-        # The final boss: tight, value-driven, almost no tilt — cold and patient.
+        # Tight, value-driven, almost no tilt — cold and patient.
         "calm": dict(value_threshold=0.62, call_threshold=0.52,
                      bluff_freq=0.05, aggression=0.5, tilt=0.0),
+        # The final boss: ruthless value bets laced with sudden bluffs, ice cold.
+        "joker": dict(value_threshold=0.55, call_threshold=0.46,
+                      bluff_freq=0.33, aggression=1.0, tilt=0.0),
     }
     if name not in presets:
         raise KeyError(f"unknown persona {name!r}; choose from {list(presets)}")
