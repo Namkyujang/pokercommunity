@@ -15,8 +15,6 @@ that reasoning trace is the real research artifact.
 
 import os
 
-import anthropic
-
 from .engine import Observation, Decision, FOLD, CALL, RAISE
 from .cards import fmt
 
@@ -85,9 +83,10 @@ class LLMPersonaAgent:
         self.persona = persona
         self.model = model
         self.max_tokens = max_tokens
-        self.client = client or anthropic.Anthropic(
-            api_key=os.environ["ANTHROPIC_API_KEY"]
-        )
+        if client is None:
+            import anthropic  # lazy: only needed when an LLM agent is actually used
+            client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+        self.client = client
 
     def _system(self):
         # Cached: persona + rules are identical across every decision, so prompt
